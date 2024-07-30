@@ -6,10 +6,11 @@
     <title>Professional ePortfolio</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            color: #333;
         }
         .container {
             width: 80%;
@@ -17,47 +18,54 @@
             overflow: hidden;
         }
         header {
-            background: #333;
+            background: #008080;
             color: #fff;
-            padding-top: 30px;
-            min-height: 70px;
+            padding: 20px 0;
             border-bottom: #77d7c3 3px solid;
         }
-        header a, .main-nav a {
+        header h1 {
+            text-align: center;
+            margin: 0;
+            font-size: 36px;
+        }
+        header nav {
+            text-align: center;
+            margin-top: 10px;
+        }
+        header nav ul {
+            padding: 0;
+            list-style: none;
+            margin: 0;
+        }
+        header nav ul li {
+            display: inline;
+            padding: 0 20px;
+        }
+        header nav ul li a {
             color: #fff;
             text-decoration: none;
             text-transform: uppercase;
             font-size: 16px;
         }
-        header ul {
-            padding: 0;
-            list-style: none;
-        }
-        header li {
-            float: left;
-            display: inline;
-            padding: 0 20px 0 20px;
-        }
         .showcase {
-            min-height: 400px;
-            background: #333;
-            text-align: center;
+            background: #77d7c3;
             color: #fff;
-            padding: 20px;
+            text-align: center;
+            padding: 60px 20px;
         }
         .showcase h1 {
-            margin-top: 50px;
-            font-size: 55px;
-            margin-bottom: 10px;
+            font-size: 48px;
+            margin: 0;
         }
         .showcase p {
-            font-size: 20px;
+            font-size: 24px;
         }
         .main-content {
             padding: 20px;
             background: #fff;
             box-shadow: 0px 0px 20px 0px #aaa;
             margin-top: 20px;
+            border-radius: 8px;
         }
         .artifact, .narrative {
             margin-bottom: 40px;
@@ -73,12 +81,25 @@
             width: 100%;
             height: auto;
             background: #000;
+            margin-bottom: 20px;
+            border-radius: 8px;
         }
         pre {
             background: #f4f4f4;
             padding: 15px;
             border: 1px solid #ddd;
             overflow: auto;
+            border-radius: 8px;
+        }
+        h2, h3 {
+            color: #008080;
+        }
+        .code-block {
+            background: #f9f9f9;
+            border-left: 3px solid #77d7c3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -86,8 +107,9 @@
     <header>
         <div class="container">
             <h1>Professional ePortfolio</h1>
-            <nav class="main-nav">
+            <nav>
                 <ul>
+                    <li><a href="#code-review">Code Review</a></li>
                     <li><a href="#category1">Category 1</a></li>
                     <li><a href="#category2">Category 2</a></li>
                     <li><a href="#category3">Category 3</a></li>
@@ -105,11 +127,13 @@
 
     <div class="container">
         <div class="main-content">
-            <h2>Code Review</h2>
-            <video controls>
-                <source src="https://youtu.be/ZZjLMKHCrrw" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            <section id="code-review">
+                <h2>Code Review</h2>
+                <video controls>
+                    <source src="https://youtu.be/ZZjLMKHCrrw" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </section>
 
             <section id="category1" class="artifact">
                 <h2>Category 1: Software Design and Engineering</h2>
@@ -137,7 +161,8 @@
                             <li>Token Validation: When a user accesses protected resources, the JWT token is sent with the request, and the JWTUtils class validates the token, checking its signature and expiration date.</li>
                             <li>Session Management: JWT tokens provide a secure and stateless way to manage user sessions. Tokens are self-contained and include all necessary user information.</li>
                         </ul>
-                        <pre><code>
+                        <div class="code-block">
+                            <pre><code>
 // LoginActivity.java
 package com.zybooks.tandan_project2;
 
@@ -256,7 +281,8 @@ public class JWTUtils {
         return claims.getSubject();
     }
 }
-                        </code></pre>
+                            </code></pre>
+                        </div>
                     </p>
                 </div>
             </section>
@@ -278,7 +304,8 @@ public class JWTUtils {
                             <li>Quicksort: I implemented the quicksort algorithm to sort the animals by their names, demonstrating my ability to apply advanced sorting techniques.</li>
                         </ul>
                         <strong>Improvements Made:</strong>
-                        <pre><code>
+                        <div class="code-block">
+                            <pre><code>
 // Driver.java
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -509,7 +536,8 @@ public class Driver {
         }
     }
 }
-                        </code></pre>
+                            </code></pre>
+                        </div>
                     </p>
                 </div>
             </section>
@@ -531,7 +559,8 @@ public class Driver {
                             <li>Data validation: By implementing prepared statements for the database operations, I ensured secure data handling and prevented SQL injection attacks. This aspect highlights my understanding of security and database best practices.</li>
                         </ul>
                         <strong>Improvements Made:</strong>
-                        <pre><code>
+                        <div class="code-block">
+                            <pre><code>
 // Appointment.java
 import java.util.Date;
 
@@ -659,7 +688,8 @@ public class DatabaseConnection {
         return DriverManager.getConnection(url, user, password);
     }
 }
-                        </code></pre>
+                            </code></pre>
+                        </div>
                     </p>
                     <p>
                         <strong>Did you meet the course objectives you planned to meet with this enhancement in Module One? Do you have any updates to your outcome-coverage plans?</strong><br>
