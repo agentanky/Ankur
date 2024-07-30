@@ -4,92 +4,689 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional ePortfolio</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #77d7c3 3px solid;
+        }
+        header a, .main-nav a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header ul {
+            padding: 0;
+            list-style: none;
+        }
+        header li {
+            float: left;
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        .showcase {
+            min-height: 400px;
+            background: url('showcase.jpg') no-repeat 0 -400px;
+            text-align: center;
+            color: #fff;
+        }
+        .showcase h1 {
+            margin-top: 100px;
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+        .showcase p {
+            font-size: 20px;
+        }
+        .main-content {
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0px 0px 20px 0px #aaa;
+            margin-top: 20px;
+        }
+        .artifact, .narrative {
+            margin-bottom: 40px;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        video {
+            width: 100%;
+            height: auto;
+            background: #000;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border: 1px solid #ddd;
+            overflow: auto;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Professional ePortfolio</h1>
-        <p>Welcome to my ePortfolio showcasing my growth and skills in Computer Science.</p>
+        <div class="container">
+            <h1>Professional ePortfolio</h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#category1">Category 1</a></li>
+                    <li><a href="#category2">Category 2</a></li>
+                    <li><a href="#category3">Category 3</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <section id="self-assessment">
-        <h2>Professional Self-Assessment</h2>
-        <p>
-            This section serves as an introduction to my skills, supported by the enhancements made to the artifacts included in this ePortfolio. My specialization within computer science is [Your Specialization], and this portfolio aims to demonstrate my abilities in this area.
-        </p>
+    <section class="showcase">
+        <div class="container">
+            <h1>Welcome to My Professional ePortfolio</h1>
+            <p>Showcasing my growth and skills in software development, algorithms, data structures, and database management.</p>
+        </div>
     </section>
 
-    <section id="code-review-video">
-        <h2>Code Review Video</h2>
-        <p>
-            Below is the video where I review my code, discuss its existing functionality, analyze areas for improvement, and outline my planned enhancements.
-        </p>
-        <video controls>
-            <source src="path/to/your/video.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </section>
+    <div class="container">
+        <div class="main-content">
+            <section id="category1" class="artifact">
+                <h2>Category 1: Software Design and Engineering</h2>
+                <video controls>
+                    <source src="code_review_category1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="narrative">
+                    <h3>Narrative</h3>
+                    <p>
+                        <strong>Briefly Describe the Artifact. What is it? When was it created?</strong><br>
+                        The artifact is a Mobile Warehouse Inventory System developed as part of my coursework in CS 360: Mobile Architecture. This Android application allows users to manage warehouse inventory, including adding, updating, and deleting inventory items. It also features a user authentication system and the ability to send SMS text messages when an inventoried item reaches a threshold. The project was created in early 2024.
+                    </p>
+                    <p>
+                        <strong>Justify the inclusion of the artifact in your ePortfolio. Why did you select this item? What specific components of the artifact showcase your skills and abilities in software development? How was the artifact improved?</strong><br>
+                        I selected this project because it demonstrates my skills in software design and engineering. The project showcases my ability to design, develop, and enhance a mobile application using software engineering principles. I implemented JWT (JSON Web Token) for secure user authentication, which demonstrates my ability to enhance security in application design. To accomplish this, I created a new class "JWTUtils" to handle the generation and validation of JWT tokens. Additionally, changes were made to other files to incorporate the use of JWT.
+                    </p>
+                    <p>
+                        <strong>How was the artifact improved?</strong><br>
+                        Original Data Flow: In the original version of the application, the authentication system was simplistic and relied on querying the SQLite database for user credentials. This approach, although functional, had some issues:
+                        <ul>
+                            <li>Security Concerns: Storing and retrieving plaintext passwords posed significant risks.</li>
+                            <li>Session Management: There was no session management, making it difficult to maintain user sessions securely.</li>
+                        </ul>
+                        New Data Flow: With the enhancement, the application now uses JWT for secure user authentication and session management.
+                        <ul>
+                            <li>User Login: After verifying user credentials against the database, a JWT token is created using the JWTUtils class. This token contains user information and has an expiration date.</li>
+                            <li>Token Generation: The JWTUtils class creates a JWT token upon login. This token is signed with a secret key to ensure its authenticity and then is sent to the client.</li>
+                            <li>Token Validation: When a user accesses protected resources, the JWT token is sent with the request, and the JWTUtils class validates the token, checking its signature and expiration date.</li>
+                            <li>Session Management: JWT tokens provide a secure and stateless way to manage user sessions. Tokens are self-contained and include all necessary user information.</li>
+                        </ul>
+                        <pre><code>
+                        // LoginActivity.java
+                        package com.zybooks.tandan_project2;
 
-    <section id="artifacts">
-        <h2>Artifacts</h2>
+                        import android.content.Intent;
+                        import android.os.Bundle;
+                        import android.view.View;
+                        import android.widget.Button;
+                        import android.widget.EditText;
+                        import android.widget.Toast;
+                        import androidx.appcompat.app.AppCompatActivity;
+                        import java.sql.*;
 
-        <article id="artifact-1">
-            <h3>Artifact 1: Software Design and Engineering</h3>
-            <p>
-                <strong>Description:</strong> This artifact is a Mobile Inventory Management System created during my CS 370 course. It includes features such as user authentication, inventory tracking, and real-time updates.
-            </p>
-            <p>
-                <strong>Enhancements:</strong> I implemented JWT authentication to improve security and refactored the code to follow the MVC design pattern.
-            </p>
-            <p>
-                <strong>Skills Demonstrated:</strong> Secure authentication, software design patterns, code refactoring.
-            </p>
-            <p>
-                <strong>Course Outcomes:</strong> Design and evaluate computing solutions, use innovative techniques and tools, develop a security mindset.
-            </p>
-            <p><a href="path/to/original/artifact1.zip">Download Original Artifact</a></p>
-            <p><a href="path/to/enhanced/artifact1.zip">Download Enhanced Artifact</a></p>
-        </article>
+                        public class LoginActivity extends AppCompatActivity {
+                            EditText usernameEditText, passwordEditText;
+                            Button loginButton, createAccountButton;
+                            DBHelper dbHelper;
 
-        <article id="artifact-2">
-            <h3>Artifact 2: Algorithms and Data Structures</h3>
-            <p>
-                <strong>Description:</strong> This artifact is the Rescue Animal System developed during my IT 145 course. It manages rescue animals, including intake, reservations, and printing lists of animals.
-            </p>
-            <p>
-                <strong>Enhancements:</strong> I optimized data structures by replacing ArrayList with HashMap for faster lookups and implemented the QuickSort algorithm for efficient sorting.
-            </p>
-            <p>
-                <strong>Skills Demonstrated:</strong> Data structure optimization, algorithm implementation, input validation.
-            </p>
-            <p>
-                <strong>Course Outcomes:</strong> Design and evaluate computing solutions, use innovative techniques and tools.
-            </p>
-            <p><a href="path/to/original/artifact2.zip">Download Original Artifact</a></p>
-            <p><a href="path/to/enhanced/artifact2.zip">Download Enhanced Artifact</a></p>
-        </article>
+                            @Override
+                            protected void onCreate(Bundle savedInstanceState) {
+                                super.onCreate(savedInstanceState);
+                                setContentView(R.layout.activity_login);
 
-        <article id="artifact-3">
-            <h3>Artifact 3: Databases</h3>
-            <p>
-                <strong>Description:</strong> This artifact is the Appointment Management System from my CS 320 course. It allows users to add, delete, and retrieve appointments.
-            </p>
-            <p>
-                <strong>Enhancements:</strong> I replaced the HashMap data structure with a MySQL database for persistent storage and implemented CRUD operations using JDBC. Additionally, I enhanced data validation and security with prepared statements.
-            </p>
-            <p>
-                <strong>Skills Demonstrated:</strong> Database integration, SQL and JDBC, data validation and security.
-            </p>
-            <p>
-                <strong>Course Outcomes:</strong> Design and evaluate computing solutions, use innovative techniques and tools, develop a security mindset.
-            </p>
-            <p><a href="path/to/original/artifact3.zip">Download Original Artifact</a></p>
-            <p><a href="path/to/enhanced/artifact3.zip">Download Enhanced Artifact</a></p>
-        </article>
-    </section>
+                                dbHelper = new DBHelper(this);
+                                usernameEditText = findViewById(R.id.usernameEditText);
+                                passwordEditText = findViewById(R.id.passwordEditText);
+                                loginButton = findViewById(R.id.loginButton);
+                                createAccountButton = findViewById(R.id.createAccountButton);
+
+                                loginButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        login();
+                                    }
+                                });
+
+                                createAccountButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        createAccount();
+                                    }
+                                });
+                            }
+
+                            private void login() {
+                                SQLiteDatabase db = dbHelper.getReadableDatabase();
+                                String username = usernameEditText.getText().toString();
+                                String password = passwordEditText.getText().toString();
+
+                                try (Connection conn = DatabaseConnection.getConnection()) {
+                                    String query = "SELECT * FROM users WHERE username=? AND password=?";
+                                    PreparedStatement pstmt = conn.prepareStatement(query);
+                                    pstmt.setString(1, username);
+                                    pstmt.setString(2, password);
+                                    ResultSet rs = pstmt.executeQuery();
+
+                                    if (rs.next()) {
+                                        Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                        String token = JWTUtils.generateToken(username);
+                                        Intent intent = new Intent(this, DataDisplayActivity.class);
+                                        intent.putExtra("JWT_TOKEN", token);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            private void createAccount() {
+                                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                                ContentValues values = new ContentValues();
+                                values.put("username", usernameEditText.getText().toString());
+                                values.put("password", passwordEditText.getText().toString());
+
+                                long id = db.insert("users", null, values);
+                                if (id != -1) {
+                                    Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(this, "Failed to create account", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        // JWTUtils.java
+                        package com.zybooks.tandan_project2;
+
+                        import io.jsonwebtoken.*;
+                        import java.util.Date;
+
+                        public class JWTUtils {
+                            private static final String SECRET_KEY = "mySecretKey";
+                            private static final long EXPIRATION_TIME = 86400000; // 1 day
+
+                            public static String generateToken(String username) {
+                                return Jwts.builder()
+                                        .setSubject(username)
+                                        .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                                        .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                                        .compact();
+                            }
+
+                            public static boolean validateToken(String token) {
+                                try {
+                                    Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+                                    return true;
+                                } catch (ExpiredJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+                                    e.printStackTrace();
+                                }
+                                return false;
+                            }
+
+                            public static String getUsernameFromToken(String token) {
+                                Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+                                return claims.getSubject();
+                            }
+                        }
+                        </code></pre>
+                    </p>
+                </div>
+            </section>
+
+            <section id="category2" class="artifact">
+                <h2>Category 2: Algorithms and Data Structures</h2>
+                <video controls>
+                    <source src="code_review_category2.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="narrative">
+                    <h3>Narrative</h3>
+                    <p>
+                        <strong>Briefly describe the artifact. What is it? When was it created?</strong><br>
+                        The artifact I chose for Category 2 is within a Java Application called “Rescue Animal System” which was created during my semester in IT 145 Foundation in Application Development. It is designed to manage rescue animals, specifically monkeys and dogs. Its functionality allows users to intake new animals, reserve animals, and print a list of animals based on different criteria.
+                    </p>
+                    <p>
+                        <strong>Justify the inclusion of the artifact in your ePortfolio. Why did you select this item? What specific components of the artifact showcase your skills and abilities in algorithms and data structure? How was the artifact improved?</strong><br>
+                        I included this artifact in my ePortfolio because it showcases my ability in Java object-oriented design and my understanding of data structures and algorithms. The key improvements that I made are as follows:
+                        <ul>
+                            <li>Data Structure Optimization: I replaced an ‘Array List’ with a ‘HashMap’ to store dogs and monkeys, improving efficiency from O(n) to O(1).</li>
+                            <li>Enhanced the intake Method: I modified the intake method for dogs and monkeys to use the HashMap for checking existing entries, making it highly efficient.</li>
+                            <li>Quicksort: I implemented the quicksort algorithm to sort the animals by their names, demonstrating my ability to apply advanced sorting techniques.</li>
+                        </ul>
+                        <strong>Improvements Made:</strong>
+                        <pre><code>
+                        // Driver.java
+                        import java.util.ArrayList;
+                        import java.util.HashMap;
+                        import java.util.List;
+                        import java.util.Scanner;
+
+                        public class Driver {
+                            private static HashMap<String, Dog> dogMap = new HashMap<>();
+                            private static HashMap<String, Monkey> monkeyMap = new HashMap<>();
+
+                            public static void main(String[] args) {
+                                initializeDogMap();
+                                initializeMonkeyMap();
+
+                                boolean quitInput = true;
+                                Scanner input = new Scanner(System.in);
+
+                                do {
+                                    displayMenu();
+                                    String userChoice = input.nextLine().trim().toLowerCase();
+
+                                    switch(userChoice) {
+                                        case "1":
+                                            intakeNewDog(input);
+                                            break;
+                                        case "2":
+                                            intakeNewMonkey(input);
+                                            break;
+                                        case "3":
+                                            reserveAnimal(input);
+                                            break;
+                                        case "4":
+                                            printAnimals("dog");
+                                            break;
+                                        case "5":
+                                            printAnimals("monkey");
+                                            break;
+                                        case "6":
+                                            printAnimals("available");
+                                            break;
+                                        case "q":
+                                            quitInput = false;
+                                            break;
+                                        default:
+                                            System.out.println("Please input a valid option");
+                                            break;
+                                    }
+                                } while(quitInput);
+                                System.out.println("See you later");
+                            }
+
+                            public static void displayMenu() {
+                                System.out.println("\n\n");
+                                System.out.println("\t\t\t\tRescue Animal System Menu");
+                                System.out.println("[1] Intake a new dog");
+                                System.out.println("[2] Intake a new monkey");
+                                System.out.println("[3] Reserve an animal");
+                                System.out.println("[4] Print a list of all dogs");
+                                System.out.println("[5] Print a list of all monkeys");
+                                System.out.println("[6] Print a list of all animals that are not reserved");
+                                System.out.println("[q] Quit application");
+                                System.out.println();
+                                System.out.println("Enter a menu selection");
+                            }
+
+                            public static void initializeDogMap() {
+                                Dog dog1 = new Dog("Spot", "German Shepherd", "male", "1", "25.6", "05-12-2019", "United States", "intake", false, "United States");
+                                Dog dog2 = new Dog("Rex", "Great Dane", "male", "3", "35.2", "02-03-2020", "United States", "Phase I", false, "United States");
+                                Dog dog3 = new Dog("Bella", "Chihuahua", "female", "4", "25.6", "12-12-2019", "Canada", "in service", true, "Canada");
+
+                                dogMap.put(dog1.getName(), dog1);
+                                dogMap.put(dog2.getName(), dog2);
+                                dogMap.put(dog3.getName(), dog3);
+                            }
+
+                            public static void initializeMonkeyMap() {
+                                Monkey monkey1 = new Monkey("Anky", "Capuchin", "male", "3", "3", "11/3/21", "United States", "IV", false,"United States", "3.2", "3'11", "6.5", "Capuchin");
+                                Monkey monkey2 = new Monkey("Punky", "Guenon", "male", "3", "3", "10/3/21", "United States", "IV", false,"United States", "2.2", "3'11", "7.5", "Guenon");
+
+                                monkeyMap.put(monkey1.getName(), monkey1);
+                                monkeyMap.put(monkey2.getName(), monkey2);
+                            }
+
+                            public static void intakeNewDog(Scanner scanner) {
+                                System.out.println("What is the dog's name?");
+                                String name = scanner.nextLine();
+                                if (dogMap.containsKey(name)) {
+                                    System.out.println("\n\nThis dog is already in our system\n\n");
+                                    return;
+                                }
+
+                                System.out.println("Enter breed:");
+                                String breed = scanner.nextLine();
+                                System.out.println("Enter gender:");
+                                String gender = scanner.nextLine();
+                                System.out.println("Enter age:");
+                                String age = scanner.nextLine();
+                                System.out.println("Enter weight:");
+                                String weight = scanner.nextLine();
+                                System.out.println("Enter acquisition date:");
+                                String acquisitionDate = scanner.nextLine();
+                                System.out.println("Enter acquisition country:");
+                                String acquisitionCountry = scanner.nextLine();
+                                System.out.println("Enter training status:");
+                                String trainingStatus = scanner.nextLine();
+                                System.out.println("Is the dog reserved (true/false)?");
+                                boolean reserved = Boolean.parseBoolean(scanner.nextLine());
+                                System.out.println("Enter in-service country:");
+                                String inServiceCountry = scanner.nextLine();
+
+                                Dog newDog = new Dog(name, breed, gender, age, weight, acquisitionDate, acquisitionCountry, trainingStatus, reserved, inServiceCountry);
+                                dogMap.put(name, newDog);
+                                System.out.println("\n\nDog added successfully\n\n");
+                            }
+
+                            public static void intakeNewMonkey(Scanner scanner) {
+                                System.out.println("What is the monkey's name?");
+                                String name = scanner.nextLine();
+                                if (monkeyMap.containsKey(name)) {
+                                    System.out.println("\n\nThis monkey is already in our system\n\n");
+                                    return;
+                                }
+
+                                boolean invalidBreed;
+                                String breed;
+                                do {
+                                    invalidBreed = true;
+                                    System.out.println("Enter breed:");
+                                    breed = scanner.nextLine();
+                                    for (String validBreed : Monkey.validBreeds) {
+                                        if (breed.equalsIgnoreCase(validBreed)) {
+                                            invalidBreed = false;
+                                            break;
+                                        }
+                                    }
+                                    if (invalidBreed) {
+                                        System.out.println("Invalid breed option");
+                                    }
+                                } while (invalidBreed);
+
+                                System.out.println("Enter gender:");
+                                String gender = scanner.nextLine();
+                                System.out.println("Enter age:");
+                                String age = scanner.nextLine();
+                                System.out.println("Enter weight:");
+                                String weight = scanner.nextLine();
+                                System.out.println("Enter acquisition date:");
+                                String acquisitionDate = scanner.nextLine();
+                                System.out.println("Enter acquisition country:");
+                                String acquisitionCountry = scanner.nextLine();
+                                System.out.println("Enter training status:");
+                                String trainingStatus = scanner.nextLine();
+                                System.out.println("Is the monkey reserved (true/false)?");
+                                boolean reserved = Boolean.parseBoolean(scanner.nextLine());
+                                System.out.println("Enter in-service country:");
+                                String inServiceCountry = scanner.nextLine();
+                                System.out.println("Enter tail length:");
+                                String tailLength = scanner.nextLine();
+                                System.out.println("Enter height:");
+                                String height = scanner.nextLine();
+                                System.out.println("Enter body length:");
+                                String bodyLength = scanner.nextLine();
+                                System.out.println("Enter species:");
+                                String species = scanner.nextLine();
+
+                                Monkey newMonkey = new Monkey(name, breed, gender, age, weight, acquisitionDate, acquisitionCountry, trainingStatus, reserved, inServiceCountry, tailLength, height, bodyLength, species);
+                                monkeyMap.put(name, newMonkey);
+                                System.out.println("\n\nMonkey added successfully\n\n");
+                            }
+
+                            public static void reserveAnimal(Scanner scanner) {
+                                System.out.println("What type of animal will be needed? (dog or monkey)");
+                                String animalType = scanner.nextLine().trim();
+
+                                System.out.println("Where will the animal be serving? (Country)");
+                                String animalServiceCountry = scanner.nextLine().trim();
+
+                                if (animalType.equalsIgnoreCase("dog")) {
+                                    for (Dog dog : dogMap.values()) {
+                                        if (dog.getTrainingStatus().equalsIgnoreCase("in service") && dog.getInServiceLocation().equalsIgnoreCase(animalServiceCountry) && !dog.getReserved()) {
+                                            dog.setReserved(true);
+                                            System.out.println(dog.getName() + " has been reserved");
+                                            return;
+                                        }
+                                    }
+                                }
+
+                                if (animalType.equalsIgnoreCase("monkey")) {
+                                    for (Monkey monkey : monkeyMap.values()) {
+                                        if (monkey.getTrainingStatus().equalsIgnoreCase("in service") && monkey.getInServiceLocation().equalsIgnoreCase(animalServiceCountry) && !monkey.getReserved()) {
+                                            monkey.setReserved(true);
+                                            System.out.println(monkey.getName() + " has been reserved");
+                                            return;
+                                        }
+                                    }
+                                }
+
+                                System.out.println("Unable to reserve a " + animalType + " from " + animalServiceCountry + " at this time");
+                            }
+
+                            public static void printAnimals(String outputString) {
+                                switch (outputString) {
+                                    case "dog":
+                                        for (Dog dog : dogMap.values()) {
+                                            System.out.println("Name: " + dog.getName() + " | Status: " + dog.getTrainingStatus() + " | Acquired from: " + dog.getAcquisitionLocation() + " | Reserved Status: " + dog.getReserved());
+                                        }
+                                        break;
+                                    case "monkey":
+                                        for (Monkey monkey : monkeyMap.values()) {
+                                            System.out.println("Name: " + monkey.getName() + " | Status: " + monkey.getTrainingStatus() + " | Acquired from: " + monkey.getAcquisitionLocation() + " | Reserved Status: " + monkey.getReserved());
+                                        }
+                                        break;
+                                    case "available":
+                                        for (Dog dog : dogMap.values()) {
+                                            if (!dog.getReserved() && dog.getTrainingStatus().equalsIgnoreCase("in service")) {
+                                                System.out.println("Name: " + dog.getName() + " | Status: " + dog.getTrainingStatus() + " | Acquired from: " + dog.getAcquisitionLocation() + " | Reserved Status: " + dog.getReserved());
+                                            }
+                                        }
+                                        for (Monkey monkey : monkeyMap.values()) {
+                                            if (!monkey.getReserved() && monkey.getTrainingStatus().equalsIgnoreCase("in service")) {
+                                                System.out.println("Name: " + monkey.getName() + " | Status: " + monkey.getTrainingStatus() + " | Acquired from: " + monkey.getAcquisitionLocation() + " | Reserved Status: " + monkey.getReserved());
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        System.out.println("This option needs to be implemented");
+                                        break;
+                                }
+                            }
+                        }
+                        </code></pre>
+                    </p>
+                </div>
+            </section>
+
+            <section id="category3" class="artifact">
+                <h2>Category 3: Databases</h2>
+                <video controls>
+                    <source src="code_review_category3.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="narrative">
+                    <h3>Narrative</h3>
+                    <p>
+                        <strong>Briefly describe the artifact. What is it? When was it created?</strong><br>
+                        The artifact is an “Appointment Management System” developed in Java. The project was originally created as a final project in CS 320: Software Testing Automation and Quality Assurance course. The system is designed to allow users to add, delete, and get appointments while ensuring unique appointment IDs and valid descriptions. Initially, the project used a HashMap to manage appointment data, and I implemented a database.
+                    </p>
+                    <p>
+                        <strong>Justify the inclusion of the artifact in your ePortfolio. Why did you select this item? What specific components of the artifact showcase your skills and abilities in software development? How was the artifact improved?</strong><br>
+                        I chose this artifact to demonstrate my proficiency in database management. The Appointment system highlights my ability to design and implement a system that performs essential CRUD operations using a database. Specifically, it showcases the following:
+                        <ul>
+                            <li>Database Integration: Originally, the system used a HashMap for data management. I replaced this with a relational database to store appointment data that persists. This transition showcases my ability to work with databases and understand the benefits of data persistence.</li>
+                            <li>CRUD operations: The CRUD operations were modified to interact with the database. This shows my ability to write SQL queries to retrieve the desired information and to place items in the database as well.</li>
+                            <li>Data validation: By implementing prepared statements for the database operations, I ensured secure data handling and prevented SQL injection attacks. This aspect highlights my understanding of security and database best practices.</li>
+                        </ul>
+                        <strong>Improvements Made:</strong>
+                        <pre><code>
+                        // Appointment.java
+                        import java.util.Date;
+
+                        public class Appointment {
+                            private final String appointmentId; // Unique and immutable
+                            private Date appointmentDate;
+                            private String description;
+
+                            public Appointment(String appointmentId, Date appointmentDate, String description) {
+                                if (appointmentId == null || appointmentId.length() > 10) {
+                                    throw new IllegalArgumentException("Invalid Appointment ID");
+                                }
+                                if (appointmentDate == null || appointmentDate.before(new Date())) {
+                                    throw new IllegalArgumentException("Invalid Appointment Date");
+                                }
+                                if (description == null || description.length() > 50) {
+                                    throw new IllegalArgumentException("Invalid Description");
+                                }
+                                this.appointmentId = appointmentId;
+                                this.appointmentDate = appointmentDate;
+                                this.description = description;
+                            }
+
+                            public String getAppointmentId() {
+                                return this.appointmentId;
+                            }
+
+                            public Date getAppointmentDate() {
+                                return appointmentDate;
+                            }
+
+                            public String getDescription() {
+                                return description;
+                            }
+
+                            public void setAppointmentDate(Date appointmentDate) {
+                                if (appointmentDate == null || appointmentDate.before(new Date())) {
+                                    throw new IllegalArgumentException("Invalid Appointment Date");
+                                }
+                                this.appointmentDate = appointmentDate;
+                            }
+
+                            public void setDescription(String description) {
+                                if (description == null || description.length() > 50) {
+                                    throw new IllegalArgumentException("Invalid Description");
+                                }
+                                this.description = description;
+                            }
+                        }
+
+                        // AppointmentService.java
+                        import java.sql.*;
+                        import java.util.HashMap;
+                        import java.util.Map;
+
+                        public class AppointmentService {
+                            private final Map<String, Appointment> appointments;
+
+                            public AppointmentService() {
+                                appointments = new HashMap<>();
+                            }
+
+                            public void addAppointment(Appointment appointment) {
+                                if (appointment == null || appointments.containsKey(appointment.getAppointmentId())) {
+                                    throw new IllegalArgumentException("Invalid or Duplicate Appointment");
+                                }
+                                try (Connection conn = DatabaseConnection.getConnection()) {
+                                    String query = "INSERT INTO appointments (appointmentId, appointmentDate, description) VALUES (?, ?, ?)";
+                                    PreparedStatement pstmt = conn.prepareStatement(query);
+                                    pstmt.setString(1, appointment.getAppointmentId());
+                                    pstmt.setDate(2, new java.sql.Date(appointment.getAppointmentDate().getTime()));
+                                    pstmt.setString(3, appointment.getDescription());
+                                    pstmt.executeUpdate();
+                                    appointments.put(appointment.getAppointmentId(), appointment);
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            public void deleteAppointment(String appointmentId) {
+                                if (!appointments.containsKey(appointmentId)) {
+                                    throw new IllegalArgumentException("Appointment ID not found");
+                                }
+                                try (Connection conn = DatabaseConnection.getConnection()) {
+                                    String query = "DELETE FROM appointments WHERE appointmentId = ?";
+                                    PreparedStatement pstmt = conn.prepareStatement(query);
+                                    pstmt.setString(1, appointmentId);
+                                    pstmt.executeUpdate();
+                                    appointments.remove(appointmentId);
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            public Appointment getAppointment(String appointmentId) {
+                                try (Connection conn = DatabaseConnection.getConnection()) {
+                                    String query = "SELECT * FROM appointments WHERE appointmentId = ?";
+                                    PreparedStatement pstmt = conn.prepareStatement(query);
+                                    pstmt.setString(1, appointmentId);
+                                    ResultSet rs = pstmt.executeQuery();
+                                    if (rs.next()) {
+                                        return new Appointment(
+                                                rs.getString("appointmentId"),
+                                                rs.getDate("appointmentDate"),
+                                                rs.getString("description")
+                                        );
+                                    }
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                                return null;
+                            }
+                        }
+
+                        // DatabaseConnection.java
+                        import java.sql.Connection;
+                        import java.sql.DriverManager;
+                        import java.sql.SQLException;
+
+                        public class DatabaseConnection {
+                            public static Connection getConnection() throws SQLException {
+                                String url = "jdbc:mysql://localhost:3306/appointments_db";
+                                String user = "username";
+                                String password = "password";
+                                return DriverManager.getConnection(url, user, password);
+                            }
+                        }
+                        </code></pre>
+                    </p>
+                    <p>
+                        <strong>Did you meet the course objectives you planned to meet with this enhancement in Module One? Do you have any updates to your outcome-coverage plans?</strong><br>
+                        Yes, I met the course objectives that I intended to. The course objectives included integrating a database, implementing CRUD operations, and enhancing data validation, all of which I accomplished. By transitioning from an in-memory HashMap to a relational database with prepared SQL statements, I demonstrated the ability to design and implement scalable solutions.
+                    </p>
+                    <p>
+                        <strong>Reflect on the process of enhancing and modifying the artifact. What did you learn as you were creating it and improving it? What challenges did you face?</strong><br>
+                        Enhancing and modifying the artifact was a great learning experience. I deepened my understanding of databases, SQL, and JDBC. The process reinforced the importance of data validation and security. Specifically, I learned:
+                        <ul>
+                            <li>Database Integration: I learned how to replace an in-memory data structure with a relational database, highlighting the need to understand the entire codebase in order to implement it.</li>
+                            <li>JDBC and SQL: I implemented CRUD operations using JDBC, which provided me with practical experience with database connectivity and SQL-based manipulation.</li>
+                            <li>Security: The use of prepared statements to prevent SQL injection attacks reinforced the importance of secure coding practices.</li>
+                        </ul>
+                        <strong>Challenges Faced:</strong> I faced some challenges with database connectivity while ensuring the setup was correct and the connection to my database was clean. Furthermore, I conducted research for the SQL queries. Although they were simple, I needed to ensure accuracy. I also played around with different types of ‘join’ statements, although not needed for this implementation. A highly enriching exercise.
+                    </p>
+                </div>
+            </section>
+        </div>
+    </div>
 
     <footer>
-        <p>&copy; 2024 [Your Name]. All rights reserved.</p>
+        <p>© 2024 Ankur Tandan. All rights reserved.</p>
     </footer>
 </body>
 </html>
