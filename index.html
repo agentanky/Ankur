@@ -5,103 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional ePortfolio</title>
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-        }
-        header {
-            background: #008080;
-            color: #fff;
-            padding: 20px 0;
-            border-bottom: #77d7c3 3px solid;
-        }
-        header h1 {
-            text-align: center;
-            margin: 0;
-            font-size: 36px;
-        }
-        header nav {
-            text-align: center;
-            margin-top: 10px;
-        }
-        header nav ul {
-            padding: 0;
-            list-style: none;
-            margin: 0;
-        }
-        header nav ul li {
-            display: inline;
-            padding: 0 20px;
-        }
-        header nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 16px;
-        }
-        .showcase {
-            background: #77d7c3;
-            color: #fff;
-            text-align: center;
-            padding: 60px 20px;
-        }
-        .showcase h1 {
-            font-size: 48px;
-            margin: 0;
-        }
-        .showcase p {
-            font-size: 24px;
-        }
-        .main-content {
-            padding: 20px;
-            background: #fff;
-            box-shadow: 0px 0px 20px 0px #aaa;
-            margin-top: 20px;
-            border-radius: 8px;
-        }
-        .artifact, .narrative {
-            margin-bottom: 40px;
-        }
-        footer {
-            background: #333;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            margin-top: 20px;
-        }
-        video {
-            width: 100%;
-            height: auto;
-            background: #000;
-            margin-bottom: 20px;
-            border-radius: 8px;
-        }
-        pre {
-            background: #f4f4f4;
-            padding: 15px;
-            border: 1px solid #ddd;
-            overflow: auto;
-            border-radius: 8px;
-        }
-        h2, h3 {
-            color: #008080;
-        }
-        .code-block {
-            background: #f9f9f9;
-            border-left: 3px solid #77d7c3;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
-    </style>
+    body {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        color: #333;
+        line-height: 1.6;
+    }
+    .container {
+        width: 90%;
+        margin: auto;
+        overflow: hidden;
+    }
+    header {
+        background: #4CAF50;
+        color: #fff;
+        padding-top: 30px;
+        min-height: 70px;
+        border-bottom: #077a36 3px solid;
+    }
+    header h1 {
+        text-align: center;
+        font-size: 2.5em;
+        margin: 0;
+    }
+    header a, .main-nav a {
+        color: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 16px;
+    }
+    header ul {
+        padding: 0;
+        list-style: none;
+        text-align: center;
+    }
+    header li {
+        display: inline;
+        padding: 0 20px;
+    }
+    .showcase {
+        background: url('showcase.jpg') no-repeat center center/cover;
+        color: #fff;
+        height: 400px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .showcase h1 {
+        font-size: 3em;
+        margin: 0.5em 0;
+    }
+    .showcase p {
+        font-size: 1.5em;
+    }
+    .main-content {
+        padding: 20px;
+        background: #fff;
+        box-shadow: 0px 0px 20px 0px #aaa;
+        margin-top: 20px;
+    }
+    .artifact, .narrative {
+        margin-bottom: 40px;
+    }
+    .artifact h2, .narrative h3 {
+        color: #4CAF50;
+    }
+    .narrative p {
+        margin: 1em 0;
+    }
+    footer {
+        background: #333;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+        margin-top: 20px;
+    }
+    video {
+        width: 100%;
+        height: auto;
+        background: #000;
+        margin-bottom: 20px;
+    }
+    pre {
+        background: #f4f4f4;
+        padding: 15px;
+        border: 1px solid #ddd;
+        overflow: auto;
+    }
+</style>
+
 </head>
 <body>
     <header>
