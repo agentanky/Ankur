@@ -40,12 +40,13 @@
         }
         .showcase {
             min-height: 400px;
-            background: url('showcase.jpg') no-repeat 0 -400px;
+            background: #333;
             text-align: center;
             color: #fff;
+            padding: 20px;
         }
         .showcase h1 {
-            margin-top: 100px;
+            margin-top: 50px;
             font-size: 55px;
             margin-bottom: 10px;
         }
@@ -104,12 +105,14 @@
 
     <div class="container">
         <div class="main-content">
+            <h2>Code Review</h2>
+            <video controls>
+                <source src="https://youtu.be/ZZjLMKHCrrw" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+
             <section id="category1" class="artifact">
                 <h2>Category 1: Software Design and Engineering</h2>
-                <video controls>
-                    <source src="code_review_category1.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
                 <div class="narrative">
                     <h3>Narrative</h3>
                     <p>
@@ -135,124 +138,124 @@
                             <li>Session Management: JWT tokens provide a secure and stateless way to manage user sessions. Tokens are self-contained and include all necessary user information.</li>
                         </ul>
                         <pre><code>
-                        // LoginActivity.java
-                        package com.zybooks.tandan_project2;
+// LoginActivity.java
+package com.zybooks.tandan_project2;
 
-                        import android.content.Intent;
-                        import android.os.Bundle;
-                        import android.view.View;
-                        import android.widget.Button;
-                        import android.widget.EditText;
-                        import android.widget.Toast;
-                        import androidx.appcompat.app.AppCompatActivity;
-                        import java.sql.*;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import java.sql.*;
 
-                        public class LoginActivity extends AppCompatActivity {
-                            EditText usernameEditText, passwordEditText;
-                            Button loginButton, createAccountButton;
-                            DBHelper dbHelper;
+public class LoginActivity extends AppCompatActivity {
+    EditText usernameEditText, passwordEditText;
+    Button loginButton, createAccountButton;
+    DBHelper dbHelper;
 
-                            @Override
-                            protected void onCreate(Bundle savedInstanceState) {
-                                super.onCreate(savedInstanceState);
-                                setContentView(R.layout.activity_login);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
-                                dbHelper = new DBHelper(this);
-                                usernameEditText = findViewById(R.id.usernameEditText);
-                                passwordEditText = findViewById(R.id.passwordEditText);
-                                loginButton = findViewById(R.id.loginButton);
-                                createAccountButton = findViewById(R.id.createAccountButton);
+        dbHelper = new DBHelper(this);
+        usernameEditText = findViewById(R.id.usernameEditText);
+        passwordEditText = findViewById(R.id.passwordEditText);
+        loginButton = findViewById(R.id.loginButton);
+        createAccountButton = findViewById(R.id.createAccountButton);
 
-                                loginButton.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        login();
-                                    }
-                                });
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login();
+            }
+        });
 
-                                createAccountButton.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        createAccount();
-                                    }
-                                });
-                            }
+        createAccountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAccount();
+            }
+        });
+    }
 
-                            private void login() {
-                                SQLiteDatabase db = dbHelper.getReadableDatabase();
-                                String username = usernameEditText.getText().toString();
-                                String password = passwordEditText.getText().toString();
+    private void login() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String username = usernameEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
 
-                                try (Connection conn = DatabaseConnection.getConnection()) {
-                                    String query = "SELECT * FROM users WHERE username=? AND password=?";
-                                    PreparedStatement pstmt = conn.prepareStatement(query);
-                                    pstmt.setString(1, username);
-                                    pstmt.setString(2, password);
-                                    ResultSet rs = pstmt.executeQuery();
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String query = "SELECT * FROM users WHERE username=? AND password=?";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
 
-                                    if (rs.next()) {
-                                        Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
-                                        String token = JWTUtils.generateToken(username);
-                                        Intent intent = new Intent(this, DataDisplayActivity.class);
-                                        intent.putExtra("JWT_TOKEN", token);
-                                        startActivity(intent);
-                                        finish();
-                                    } else {
-                                        Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();
-                                    }
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                }
-                            }
+            if (rs.next()) {
+                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+                String token = JWTUtils.generateToken(username);
+                Intent intent = new Intent(this, DataDisplayActivity.class);
+                intent.putExtra("JWT_TOKEN", token);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-                            private void createAccount() {
-                                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                                ContentValues values = new ContentValues();
-                                values.put("username", usernameEditText.getText().toString());
-                                values.put("password", passwordEditText.getText().toString());
+    private void createAccount() {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("username", usernameEditText.getText().toString());
+        values.put("password", passwordEditText.getText().toString());
 
-                                long id = db.insert("users", null, values);
-                                if (id != -1) {
-                                    Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(this, "Failed to create account", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }
+        long id = db.insert("users", null, values);
+        if (id != -1) {
+            Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Failed to create account", Toast.LENGTH_SHORT).show();
+        }
+    }
+}
 
-                        // JWTUtils.java
-                        package com.zybooks.tandan_project2;
+// JWTUtils.java
+package com.zybooks.tandan_project2;
 
-                        import io.jsonwebtoken.*;
-                        import java.util.Date;
+import io.jsonwebtoken.*;
+import java.util.Date;
 
-                        public class JWTUtils {
-                            private static final String SECRET_KEY = "mySecretKey";
-                            private static final long EXPIRATION_TIME = 86400000; // 1 day
+public class JWTUtils {
+    private static final String SECRET_KEY = "mySecretKey";
+    private static final long EXPIRATION_TIME = 86400000; // 1 day
 
-                            public static String generateToken(String username) {
-                                return Jwts.builder()
-                                        .setSubject(username)
-                                        .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                                        .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
-                                        .compact();
-                            }
+    public static String generateToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .compact();
+    }
 
-                            public static boolean validateToken(String token) {
-                                try {
-                                    Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
-                                    return true;
-                                } catch (ExpiredJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
-                                    e.printStackTrace();
-                                }
-                                return false;
-                            }
+    public static boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            return true;
+        } catch (ExpiredJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
-                            public static String getUsernameFromToken(String token) {
-                                Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
-                                return claims.getSubject();
-                            }
-                        }
+    public static String getUsernameFromToken(String token) {
+        Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        return claims.getSubject();
+    }
+}
                         </code></pre>
                     </p>
                 </div>
@@ -260,10 +263,6 @@
 
             <section id="category2" class="artifact">
                 <h2>Category 2: Algorithms and Data Structures</h2>
-                <video controls>
-                    <source src="code_review_category2.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
                 <div class="narrative">
                     <h3>Narrative</h3>
                     <p>
@@ -280,236 +279,236 @@
                         </ul>
                         <strong>Improvements Made:</strong>
                         <pre><code>
-                        // Driver.java
-                        import java.util.ArrayList;
-                        import java.util.HashMap;
-                        import java.util.List;
-                        import java.util.Scanner;
+// Driver.java
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
 
-                        public class Driver {
-                            private static HashMap<String, Dog> dogMap = new HashMap<>();
-                            private static HashMap<String, Monkey> monkeyMap = new HashMap<>();
+public class Driver {
+    private static HashMap<String, Dog> dogMap = new HashMap<>();
+    private static HashMap<String, Monkey> monkeyMap = new HashMap<>();
 
-                            public static void main(String[] args) {
-                                initializeDogMap();
-                                initializeMonkeyMap();
+    public static void main(String[] args) {
+        initializeDogMap();
+        initializeMonkeyMap();
 
-                                boolean quitInput = true;
-                                Scanner input = new Scanner(System.in);
+        boolean quitInput = true;
+        Scanner input = new Scanner(System.in);
 
-                                do {
-                                    displayMenu();
-                                    String userChoice = input.nextLine().trim().toLowerCase();
+        do {
+            displayMenu();
+            String userChoice = input.nextLine().trim().toLowerCase();
 
-                                    switch(userChoice) {
-                                        case "1":
-                                            intakeNewDog(input);
-                                            break;
-                                        case "2":
-                                            intakeNewMonkey(input);
-                                            break;
-                                        case "3":
-                                            reserveAnimal(input);
-                                            break;
-                                        case "4":
-                                            printAnimals("dog");
-                                            break;
-                                        case "5":
-                                            printAnimals("monkey");
-                                            break;
-                                        case "6":
-                                            printAnimals("available");
-                                            break;
-                                        case "q":
-                                            quitInput = false;
-                                            break;
-                                        default:
-                                            System.out.println("Please input a valid option");
-                                            break;
-                                    }
-                                } while(quitInput);
-                                System.out.println("See you later");
-                            }
+            switch(userChoice) {
+                case "1":
+                    intakeNewDog(input);
+                    break;
+                case "2":
+                    intakeNewMonkey(input);
+                    break;
+                case "3":
+                    reserveAnimal(input);
+                    break;
+                case "4":
+                    printAnimals("dog");
+                    break;
+                case "5":
+                    printAnimals("monkey");
+                    break;
+                case "6":
+                    printAnimals("available");
+                    break;
+                case "q":
+                    quitInput = false;
+                    break;
+                default:
+                    System.out.println("Please input a valid option");
+                    break;
+            }
+        } while(quitInput);
+        System.out.println("See you later");
+    }
 
-                            public static void displayMenu() {
-                                System.out.println("\n\n");
-                                System.out.println("\t\t\t\tRescue Animal System Menu");
-                                System.out.println("[1] Intake a new dog");
-                                System.out.println("[2] Intake a new monkey");
-                                System.out.println("[3] Reserve an animal");
-                                System.out.println("[4] Print a list of all dogs");
-                                System.out.println("[5] Print a list of all monkeys");
-                                System.out.println("[6] Print a list of all animals that are not reserved");
-                                System.out.println("[q] Quit application");
-                                System.out.println();
-                                System.out.println("Enter a menu selection");
-                            }
+    public static void displayMenu() {
+        System.out.println("\n\n");
+        System.out.println("\t\t\t\tRescue Animal System Menu");
+        System.out.println("[1] Intake a new dog");
+        System.out.println("[2] Intake a new monkey");
+        System.out.println("[3] Reserve an animal");
+        System.out.println("[4] Print a list of all dogs");
+        System.out.println("[5] Print a list of all monkeys");
+        System.out.println("[6] Print a list of all animals that are not reserved");
+        System.out.println("[q] Quit application");
+        System.out.println();
+        System.out.println("Enter a menu selection");
+    }
 
-                            public static void initializeDogMap() {
-                                Dog dog1 = new Dog("Spot", "German Shepherd", "male", "1", "25.6", "05-12-2019", "United States", "intake", false, "United States");
-                                Dog dog2 = new Dog("Rex", "Great Dane", "male", "3", "35.2", "02-03-2020", "United States", "Phase I", false, "United States");
-                                Dog dog3 = new Dog("Bella", "Chihuahua", "female", "4", "25.6", "12-12-2019", "Canada", "in service", true, "Canada");
+    public static void initializeDogMap() {
+        Dog dog1 = new Dog("Spot", "German Shepherd", "male", "1", "25.6", "05-12-2019", "United States", "intake", false, "United States");
+        Dog dog2 = new Dog("Rex", "Great Dane", "male", "3", "35.2", "02-03-2020", "United States", "Phase I", false, "United States");
+        Dog dog3 = new Dog("Bella", "Chihuahua", "female", "4", "25.6", "12-12-2019", "Canada", "in service", true, "Canada");
 
-                                dogMap.put(dog1.getName(), dog1);
-                                dogMap.put(dog2.getName(), dog2);
-                                dogMap.put(dog3.getName(), dog3);
-                            }
+        dogMap.put(dog1.getName(), dog1);
+        dogMap.put(dog2.getName(), dog2);
+        dogMap.put(dog3.getName(), dog3);
+    }
 
-                            public static void initializeMonkeyMap() {
-                                Monkey monkey1 = new Monkey("Anky", "Capuchin", "male", "3", "3", "11/3/21", "United States", "IV", false,"United States", "3.2", "3'11", "6.5", "Capuchin");
-                                Monkey monkey2 = new Monkey("Punky", "Guenon", "male", "3", "3", "10/3/21", "United States", "IV", false,"United States", "2.2", "3'11", "7.5", "Guenon");
+    public static void initializeMonkeyMap() {
+        Monkey monkey1 = new Monkey("Anky", "Capuchin", "male", "3", "3", "11/3/21", "United States", "IV", false,"United States", "3.2", "3'11", "6.5", "Capuchin");
+        Monkey monkey2 = new Monkey("Punky", "Guenon", "male", "3", "3", "10/3/21", "United States", "IV", false,"United States", "2.2", "3'11", "7.5", "Guenon");
 
-                                monkeyMap.put(monkey1.getName(), monkey1);
-                                monkeyMap.put(monkey2.getName(), monkey2);
-                            }
+        monkeyMap.put(monkey1.getName(), monkey1);
+        monkeyMap.put(monkey2.getName(), monkey2);
+    }
 
-                            public static void intakeNewDog(Scanner scanner) {
-                                System.out.println("What is the dog's name?");
-                                String name = scanner.nextLine();
-                                if (dogMap.containsKey(name)) {
-                                    System.out.println("\n\nThis dog is already in our system\n\n");
-                                    return;
-                                }
+    public static void intakeNewDog(Scanner scanner) {
+        System.out.println("What is the dog's name?");
+        String name = scanner.nextLine();
+        if (dogMap.containsKey(name)) {
+            System.out.println("\n\nThis dog is already in our system\n\n");
+            return;
+        }
 
-                                System.out.println("Enter breed:");
-                                String breed = scanner.nextLine();
-                                System.out.println("Enter gender:");
-                                String gender = scanner.nextLine();
-                                System.out.println("Enter age:");
-                                String age = scanner.nextLine();
-                                System.out.println("Enter weight:");
-                                String weight = scanner.nextLine();
-                                System.out.println("Enter acquisition date:");
-                                String acquisitionDate = scanner.nextLine();
-                                System.out.println("Enter acquisition country:");
-                                String acquisitionCountry = scanner.nextLine();
-                                System.out.println("Enter training status:");
-                                String trainingStatus = scanner.nextLine();
-                                System.out.println("Is the dog reserved (true/false)?");
-                                boolean reserved = Boolean.parseBoolean(scanner.nextLine());
-                                System.out.println("Enter in-service country:");
-                                String inServiceCountry = scanner.nextLine();
+        System.out.println("Enter breed:");
+        String breed = scanner.nextLine();
+        System.out.println("Enter gender:");
+        String gender = scanner.nextLine();
+        System.out.println("Enter age:");
+        String age = scanner.nextLine();
+        System.out.println("Enter weight:");
+        String weight = scanner.nextLine();
+        System.out.println("Enter acquisition date:");
+        String acquisitionDate = scanner.nextLine();
+        System.out.println("Enter acquisition country:");
+        String acquisitionCountry = scanner.nextLine();
+        System.out.println("Enter training status:");
+        String trainingStatus = scanner.nextLine();
+        System.out.println("Is the dog reserved (true/false)?");
+        boolean reserved = Boolean.parseBoolean(scanner.nextLine());
+        System.out.println("Enter in-service country:");
+        String inServiceCountry = scanner.nextLine();
 
-                                Dog newDog = new Dog(name, breed, gender, age, weight, acquisitionDate, acquisitionCountry, trainingStatus, reserved, inServiceCountry);
-                                dogMap.put(name, newDog);
-                                System.out.println("\n\nDog added successfully\n\n");
-                            }
+        Dog newDog = new Dog(name, breed, gender, age, weight, acquisitionDate, acquisitionCountry, trainingStatus, reserved, inServiceCountry);
+        dogMap.put(name, newDog);
+        System.out.println("\n\nDog added successfully\n\n");
+    }
 
-                            public static void intakeNewMonkey(Scanner scanner) {
-                                System.out.println("What is the monkey's name?");
-                                String name = scanner.nextLine();
-                                if (monkeyMap.containsKey(name)) {
-                                    System.out.println("\n\nThis monkey is already in our system\n\n");
-                                    return;
-                                }
+    public static void intakeNewMonkey(Scanner scanner) {
+        System.out.println("What is the monkey's name?");
+        String name = scanner.nextLine();
+        if (monkeyMap.containsKey(name)) {
+            System.out.println("\n\nThis monkey is already in our system\n\n");
+            return;
+        }
 
-                                boolean invalidBreed;
-                                String breed;
-                                do {
-                                    invalidBreed = true;
-                                    System.out.println("Enter breed:");
-                                    breed = scanner.nextLine();
-                                    for (String validBreed : Monkey.validBreeds) {
-                                        if (breed.equalsIgnoreCase(validBreed)) {
-                                            invalidBreed = false;
-                                            break;
-                                        }
-                                    }
-                                    if (invalidBreed) {
-                                        System.out.println("Invalid breed option");
-                                    }
-                                } while (invalidBreed);
+        boolean invalidBreed;
+        String breed;
+        do {
+            invalidBreed = true;
+            System.out.println("Enter breed:");
+            breed = scanner.nextLine();
+            for (String validBreed : Monkey.validBreeds) {
+                if (breed.equalsIgnoreCase(validBreed)) {
+                    invalidBreed = false;
+                    break;
+                }
+            }
+            if (invalidBreed) {
+                System.out.println("Invalid breed option");
+            }
+        } while (invalidBreed);
 
-                                System.out.println("Enter gender:");
-                                String gender = scanner.nextLine();
-                                System.out.println("Enter age:");
-                                String age = scanner.nextLine();
-                                System.out.println("Enter weight:");
-                                String weight = scanner.nextLine();
-                                System.out.println("Enter acquisition date:");
-                                String acquisitionDate = scanner.nextLine();
-                                System.out.println("Enter acquisition country:");
-                                String acquisitionCountry = scanner.nextLine();
-                                System.out.println("Enter training status:");
-                                String trainingStatus = scanner.nextLine();
-                                System.out.println("Is the monkey reserved (true/false)?");
-                                boolean reserved = Boolean.parseBoolean(scanner.nextLine());
-                                System.out.println("Enter in-service country:");
-                                String inServiceCountry = scanner.nextLine();
-                                System.out.println("Enter tail length:");
-                                String tailLength = scanner.nextLine();
-                                System.out.println("Enter height:");
-                                String height = scanner.nextLine();
-                                System.out.println("Enter body length:");
-                                String bodyLength = scanner.nextLine();
-                                System.out.println("Enter species:");
-                                String species = scanner.nextLine();
+        System.out.println("Enter gender:");
+        String gender = scanner.nextLine();
+        System.out.println("Enter age:");
+        String age = scanner.nextLine();
+        System.out.println("Enter weight:");
+        String weight = scanner.nextLine();
+        System.out.println("Enter acquisition date:");
+        String acquisitionDate = scanner.nextLine();
+        System.out.println("Enter acquisition country:");
+        String acquisitionCountry = scanner.nextLine();
+        System.out.println("Enter training status:");
+        String trainingStatus = scanner.nextLine();
+        System.out.println("Is the monkey reserved (true/false)?");
+        boolean reserved = Boolean.parseBoolean(scanner.nextLine());
+        System.out.println("Enter in-service country:");
+        String inServiceCountry = scanner.nextLine();
+        System.out.println("Enter tail length:");
+        String tailLength = scanner.nextLine();
+        System.out.println("Enter height:");
+        String height = scanner.nextLine();
+        System.out.println("Enter body length:");
+        String bodyLength = scanner.nextLine();
+        System.out.println("Enter species:");
+        String species = scanner.nextLine();
 
-                                Monkey newMonkey = new Monkey(name, breed, gender, age, weight, acquisitionDate, acquisitionCountry, trainingStatus, reserved, inServiceCountry, tailLength, height, bodyLength, species);
-                                monkeyMap.put(name, newMonkey);
-                                System.out.println("\n\nMonkey added successfully\n\n");
-                            }
+        Monkey newMonkey = new Monkey(name, breed, gender, age, weight, acquisitionDate, acquisitionCountry, trainingStatus, reserved, inServiceCountry, tailLength, height, bodyLength, species);
+        monkeyMap.put(name, newMonkey);
+        System.out.println("\n\nMonkey added successfully\n\n");
+    }
 
-                            public static void reserveAnimal(Scanner scanner) {
-                                System.out.println("What type of animal will be needed? (dog or monkey)");
-                                String animalType = scanner.nextLine().trim();
+    public static void reserveAnimal(Scanner scanner) {
+        System.out.println("What type of animal will be needed? (dog or monkey)");
+        String animalType = scanner.nextLine().trim();
 
-                                System.out.println("Where will the animal be serving? (Country)");
-                                String animalServiceCountry = scanner.nextLine().trim();
+        System.out.println("Where will the animal be serving? (Country)");
+        String animalServiceCountry = scanner.nextLine().trim();
 
-                                if (animalType.equalsIgnoreCase("dog")) {
-                                    for (Dog dog : dogMap.values()) {
-                                        if (dog.getTrainingStatus().equalsIgnoreCase("in service") && dog.getInServiceLocation().equalsIgnoreCase(animalServiceCountry) && !dog.getReserved()) {
-                                            dog.setReserved(true);
-                                            System.out.println(dog.getName() + " has been reserved");
-                                            return;
-                                        }
-                                    }
-                                }
+        if (animalType.equalsIgnoreCase("dog")) {
+            for (Dog dog : dogMap.values()) {
+                if (dog.getTrainingStatus().equalsIgnoreCase("in service") && dog.getInServiceLocation().equalsIgnoreCase(animalServiceCountry) && !dog.getReserved()) {
+                    dog.setReserved(true);
+                    System.out.println(dog.getName() + " has been reserved");
+                    return;
+                }
+            }
+        }
 
-                                if (animalType.equalsIgnoreCase("monkey")) {
-                                    for (Monkey monkey : monkeyMap.values()) {
-                                        if (monkey.getTrainingStatus().equalsIgnoreCase("in service") && monkey.getInServiceLocation().equalsIgnoreCase(animalServiceCountry) && !monkey.getReserved()) {
-                                            monkey.setReserved(true);
-                                            System.out.println(monkey.getName() + " has been reserved");
-                                            return;
-                                        }
-                                    }
-                                }
+        if (animalType.equalsIgnoreCase("monkey")) {
+            for (Monkey monkey : monkeyMap.values()) {
+                if (monkey.getTrainingStatus().equalsIgnoreCase("in service") && monkey.getInServiceLocation().equalsIgnoreCase(animalServiceCountry) && !monkey.getReserved()) {
+                    monkey.setReserved(true);
+                    System.out.println(monkey.getName() + " has been reserved");
+                    return;
+                }
+            }
+        }
 
-                                System.out.println("Unable to reserve a " + animalType + " from " + animalServiceCountry + " at this time");
-                            }
+        System.out.println("Unable to reserve a " + animalType + " from " + animalServiceCountry + " at this time");
+    }
 
-                            public static void printAnimals(String outputString) {
-                                switch (outputString) {
-                                    case "dog":
-                                        for (Dog dog : dogMap.values()) {
-                                            System.out.println("Name: " + dog.getName() + " | Status: " + dog.getTrainingStatus() + " | Acquired from: " + dog.getAcquisitionLocation() + " | Reserved Status: " + dog.getReserved());
-                                        }
-                                        break;
-                                    case "monkey":
-                                        for (Monkey monkey : monkeyMap.values()) {
-                                            System.out.println("Name: " + monkey.getName() + " | Status: " + monkey.getTrainingStatus() + " | Acquired from: " + monkey.getAcquisitionLocation() + " | Reserved Status: " + monkey.getReserved());
-                                        }
-                                        break;
-                                    case "available":
-                                        for (Dog dog : dogMap.values()) {
-                                            if (!dog.getReserved() && dog.getTrainingStatus().equalsIgnoreCase("in service")) {
-                                                System.out.println("Name: " + dog.getName() + " | Status: " + dog.getTrainingStatus() + " | Acquired from: " + dog.getAcquisitionLocation() + " | Reserved Status: " + dog.getReserved());
-                                            }
-                                        }
-                                        for (Monkey monkey : monkeyMap.values()) {
-                                            if (!monkey.getReserved() && monkey.getTrainingStatus().equalsIgnoreCase("in service")) {
-                                                System.out.println("Name: " + monkey.getName() + " | Status: " + monkey.getTrainingStatus() + " | Acquired from: " + monkey.getAcquisitionLocation() + " | Reserved Status: " + monkey.getReserved());
-                                            }
-                                        }
-                                        break;
-                                    default:
-                                        System.out.println("This option needs to be implemented");
-                                        break;
-                                }
-                            }
-                        }
+    public static void printAnimals(String outputString) {
+        switch (outputString) {
+            case "dog":
+                for (Dog dog : dogMap.values()) {
+                    System.out.println("Name: " + dog.getName() + " | Status: " + dog.getTrainingStatus() + " | Acquired from: " + dog.getAcquisitionLocation() + " | Reserved Status: " + dog.getReserved());
+                }
+                break;
+            case "monkey":
+                for (Monkey monkey : monkeyMap.values()) {
+                    System.out.println("Name: " + monkey.getName() + " | Status: " + monkey.getTrainingStatus() + " | Acquired from: " + monkey.getAcquisitionLocation() + " | Reserved Status: " + monkey.getReserved());
+                }
+                break;
+            case "available":
+                for (Dog dog : dogMap.values()) {
+                    if (!dog.getReserved() && dog.getTrainingStatus().equalsIgnoreCase("in service")) {
+                        System.out.println("Name: " + dog.getName() + " | Status: " + dog.getTrainingStatus() + " | Acquired from: " + dog.getAcquisitionLocation() + " | Reserved Status: " + dog.getReserved());
+                    }
+                }
+                for (Monkey monkey : monkeyMap.values()) {
+                    if (!monkey.getReserved() && monkey.getTrainingStatus().equalsIgnoreCase("in service")) {
+                        System.out.println("Name: " + monkey.getName() + " | Status: " + monkey.getTrainingStatus() + " | Acquired from: " + monkey.getAcquisitionLocation() + " | Reserved Status: " + monkey.getReserved());
+                    }
+                }
+                break;
+            default:
+                System.out.println("This option needs to be implemented");
+                break;
+        }
+    }
+}
                         </code></pre>
                     </p>
                 </div>
@@ -517,10 +516,6 @@
 
             <section id="category3" class="artifact">
                 <h2>Category 3: Databases</h2>
-                <video controls>
-                    <source src="code_review_category3.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
                 <div class="narrative">
                     <h3>Narrative</h3>
                     <p>
@@ -537,133 +532,133 @@
                         </ul>
                         <strong>Improvements Made:</strong>
                         <pre><code>
-                        // Appointment.java
-                        import java.util.Date;
+// Appointment.java
+import java.util.Date;
 
-                        public class Appointment {
-                            private final String appointmentId; // Unique and immutable
-                            private Date appointmentDate;
-                            private String description;
+public class Appointment {
+    private final String appointmentId; // Unique and immutable
+    private Date appointmentDate;
+    private String description;
 
-                            public Appointment(String appointmentId, Date appointmentDate, String description) {
-                                if (appointmentId == null || appointmentId.length() > 10) {
-                                    throw new IllegalArgumentException("Invalid Appointment ID");
-                                }
-                                if (appointmentDate == null || appointmentDate.before(new Date())) {
-                                    throw new IllegalArgumentException("Invalid Appointment Date");
-                                }
-                                if (description == null || description.length() > 50) {
-                                    throw new IllegalArgumentException("Invalid Description");
-                                }
-                                this.appointmentId = appointmentId;
-                                this.appointmentDate = appointmentDate;
-                                this.description = description;
-                            }
+    public Appointment(String appointmentId, Date appointmentDate, String description) {
+        if (appointmentId == null || appointmentId.length() > 10) {
+            throw new IllegalArgumentException("Invalid Appointment ID");
+        }
+        if (appointmentDate == null || appointmentDate.before(new Date())) {
+            throw new IllegalArgumentException("Invalid Appointment Date");
+        }
+        if (description == null || description.length() > 50) {
+            throw new IllegalArgumentException("Invalid Description");
+        }
+        this.appointmentId = appointmentId;
+        this.appointmentDate = appointmentDate;
+        this.description = description;
+    }
 
-                            public String getAppointmentId() {
-                                return this.appointmentId;
-                            }
+    public String getAppointmentId() {
+        return this.appointmentId;
+    }
 
-                            public Date getAppointmentDate() {
-                                return appointmentDate;
-                            }
+    public Date getAppointmentDate() {
+        return appointmentDate;
+    }
 
-                            public String getDescription() {
-                                return description;
-                            }
+    public String getDescription() {
+        return description;
+    }
 
-                            public void setAppointmentDate(Date appointmentDate) {
-                                if (appointmentDate == null || appointmentDate.before(new Date())) {
-                                    throw new IllegalArgumentException("Invalid Appointment Date");
-                                }
-                                this.appointmentDate = appointmentDate;
-                            }
+    public void setAppointmentDate(Date appointmentDate) {
+        if (appointmentDate == null || appointmentDate.before(new Date())) {
+            throw new IllegalArgumentException("Invalid Appointment Date");
+        }
+        this.appointmentDate = appointmentDate;
+    }
 
-                            public void setDescription(String description) {
-                                if (description == null || description.length() > 50) {
-                                    throw new IllegalArgumentException("Invalid Description");
-                                }
-                                this.description = description;
-                            }
-                        }
+    public void setDescription(String description) {
+        if (description == null || description.length() > 50) {
+            throw new IllegalArgumentException("Invalid Description");
+        }
+        this.description = description;
+    }
+}
 
-                        // AppointmentService.java
-                        import java.sql.*;
-                        import java.util.HashMap;
-                        import java.util.Map;
+// AppointmentService.java
+import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
-                        public class AppointmentService {
-                            private final Map<String, Appointment> appointments;
+public class AppointmentService {
+    private final Map<String, Appointment> appointments;
 
-                            public AppointmentService() {
-                                appointments = new HashMap<>();
-                            }
+    public AppointmentService() {
+        appointments = new HashMap<>();
+    }
 
-                            public void addAppointment(Appointment appointment) {
-                                if (appointment == null || appointments.containsKey(appointment.getAppointmentId())) {
-                                    throw new IllegalArgumentException("Invalid or Duplicate Appointment");
-                                }
-                                try (Connection conn = DatabaseConnection.getConnection()) {
-                                    String query = "INSERT INTO appointments (appointmentId, appointmentDate, description) VALUES (?, ?, ?)";
-                                    PreparedStatement pstmt = conn.prepareStatement(query);
-                                    pstmt.setString(1, appointment.getAppointmentId());
-                                    pstmt.setDate(2, new java.sql.Date(appointment.getAppointmentDate().getTime()));
-                                    pstmt.setString(3, appointment.getDescription());
-                                    pstmt.executeUpdate();
-                                    appointments.put(appointment.getAppointmentId(), appointment);
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                }
-                            }
+    public void addAppointment(Appointment appointment) {
+        if (appointment == null || appointments.containsKey(appointment.getAppointmentId())) {
+            throw new IllegalArgumentException("Invalid or Duplicate Appointment");
+        }
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String query = "INSERT INTO appointments (appointmentId, appointmentDate, description) VALUES (?, ?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, appointment.getAppointmentId());
+            pstmt.setDate(2, new java.sql.Date(appointment.getAppointmentDate().getTime()));
+            pstmt.setString(3, appointment.getDescription());
+            pstmt.executeUpdate();
+            appointments.put(appointment.getAppointmentId(), appointment);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-                            public void deleteAppointment(String appointmentId) {
-                                if (!appointments.containsKey(appointmentId)) {
-                                    throw new IllegalArgumentException("Appointment ID not found");
-                                }
-                                try (Connection conn = DatabaseConnection.getConnection()) {
-                                    String query = "DELETE FROM appointments WHERE appointmentId = ?";
-                                    PreparedStatement pstmt = conn.prepareStatement(query);
-                                    pstmt.setString(1, appointmentId);
-                                    pstmt.executeUpdate();
-                                    appointments.remove(appointmentId);
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                }
-                            }
+    public void deleteAppointment(String appointmentId) {
+        if (!appointments.containsKey(appointmentId)) {
+            throw new IllegalArgumentException("Appointment ID not found");
+        }
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String query = "DELETE FROM appointments WHERE appointmentId = ?";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, appointmentId);
+            pstmt.executeUpdate();
+            appointments.remove(appointmentId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-                            public Appointment getAppointment(String appointmentId) {
-                                try (Connection conn = DatabaseConnection.getConnection()) {
-                                    String query = "SELECT * FROM appointments WHERE appointmentId = ?";
-                                    PreparedStatement pstmt = conn.prepareStatement(query);
-                                    pstmt.setString(1, appointmentId);
-                                    ResultSet rs = pstmt.executeQuery();
-                                    if (rs.next()) {
-                                        return new Appointment(
-                                                rs.getString("appointmentId"),
-                                                rs.getDate("appointmentDate"),
-                                                rs.getString("description")
-                                        );
-                                    }
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                }
-                                return null;
-                            }
-                        }
+    public Appointment getAppointment(String appointmentId) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String query = "SELECT * FROM appointments WHERE appointmentId = ?";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, appointmentId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new Appointment(
+                        rs.getString("appointmentId"),
+                        rs.getDate("appointmentDate"),
+                        rs.getString("description")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}
 
-                        // DatabaseConnection.java
-                        import java.sql.Connection;
-                        import java.sql.DriverManager;
-                        import java.sql.SQLException;
+// DatabaseConnection.java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
-                        public class DatabaseConnection {
-                            public static Connection getConnection() throws SQLException {
-                                String url = "jdbc:mysql://localhost:3306/appointments_db";
-                                String user = "username";
-                                String password = "password";
-                                return DriverManager.getConnection(url, user, password);
-                            }
-                        }
+public class DatabaseConnection {
+    public static Connection getConnection() throws SQLException {
+        String url = "jdbc:mysql://localhost:3306/appointments_db";
+        String user = "username";
+        String password = "password";
+        return DriverManager.getConnection(url, user, password);
+    }
+}
                         </code></pre>
                     </p>
                     <p>
